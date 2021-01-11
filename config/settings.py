@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'allauth.account', # サード
     'allauth.socialaccount', # サード
     'rest_auth.registration', # サード
+    'corsheaders', # サード
     'users.apps.UsersConfig', # 追記
     'posts.apps.PostsConfig', # 追記
 ]
@@ -76,6 +77,8 @@ REST_AUTH_SERIALIZERS = {
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -83,6 +86,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000'
 ]
 
 ROOT_URLCONF = 'config.urls'
