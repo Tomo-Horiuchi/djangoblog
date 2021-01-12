@@ -58,6 +58,12 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # sitesフレームワークの1つでいくつかのDjangoプロジェクトから複数のWebサイトをホストするためのID
 SITE_ID = 1
 
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True   
+ACCOUNT_USERNAME_REQUIRED = False
+
+REST_USE_JWT = True # 追記
+
 # rest framework app definition
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -71,6 +77,8 @@ REST_FRAMEWORK = {
         # トークン認証の機能を提供する
         'rest_framework.authentication.TokenAuthentication',
     ],
+    'NON_FIELD_ERRORS_KEY': 'detail', # 変更
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json' # 変更
 }
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'users.serializers.UserSerializer'
