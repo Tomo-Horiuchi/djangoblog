@@ -11,7 +11,7 @@ urlpatterns = [
     path('api/rest-auth/', include('rest_auth.urls')),
     path('api/rest-auth/registration/', include('rest_auth.registration.urls')),
     path('schema/', get_schema_view(  # スキーマ表示の追加
-        title="Blogress",
+        title="Blog",
         description="API for all things …"
     ), name='openapi-schema'),
     path('docs/', TemplateView.as_view(  # ドキュメント表示の追加
