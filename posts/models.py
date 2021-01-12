@@ -4,22 +4,42 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-class Post(models.Model):
-    # 記事ID(PRIMARY KEY)
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    # 著者
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    # 記事タイトル
-    title = models.CharField(max_length=64)
-    # スラッグ(URLに使う記事識別子)
+class Category(models.Model):
+    name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
-    # サムネイルURL
-    thumbnail = models.URLField(blank=True)
-    # 記事本文
-    body = models.TextField(blank=True)
-    # 記事の作成日時と更新日時
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Post(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    tags = models.ManyToManyField(Tag, blank=True)
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    published_at = models.DateTimeField(blank=True, null=True)
+    is_public = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def save(self, *args, **kwargs):
+        if self.is_public and not self.published_at:
+            self.published_at = timezone.now()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
