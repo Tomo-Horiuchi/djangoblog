@@ -1,17 +1,12 @@
+/**
+ * src/components/organisms/Footer.jsx
+ * @file フッターの表示をするコンポーネント
+ */
+
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Typography } from '@material-ui/core';
-
-import { BLOG_TITLE } from '../constants';
-
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}{BLOG_TITLE}{' '}{new Date().getFullYear()}{'.'}
-        </Typography>
-    );
-}
+import Copyright from '../atoms/Copyright';
 
 const useStyles = makeStyles(theme => ({
     footer: {
